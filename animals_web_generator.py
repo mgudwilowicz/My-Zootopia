@@ -8,6 +8,7 @@ def load_data(file_path):
 
 
 def serialize_animal(animal_obj):
+    """Returns an HTML list item (<li>) containing formatted information about a single animal."""
     output = ''
     output += '<li class="cards__item">'
     output += f"<div class='card__title'>  {animal_obj['name']}</div>"
@@ -23,6 +24,7 @@ def serialize_animal(animal_obj):
 
 
 def generate_animals_html():
+    """Generates an HTML file by inserting animal data into a template and adding UTF-8 metadata."""
     with open("animals_template.html", "r", encoding="utf-8") as f:
         html_template = f.read()
         html_template = html_template.replace(
@@ -30,12 +32,11 @@ def generate_animals_html():
         "<head>\n    <meta charset=\"UTF-8\">"
         )
 
-
     html_output = html_template.replace("__REPLACE_ANIMALS_INFO__", output)
-
 
     with open("animals.html", "w") as f:
         f.write(html_output)
+
 
 
 data = load_data('animals_data.json')
