@@ -6,8 +6,6 @@ def load_data(file_path):
   with open(file_path, "r") as handle:
     return json.load(handle)
 
-data = load_data('animals_data.json')
-
 
 def serialize_animal(animal_obj):
     output = ''
@@ -24,21 +22,26 @@ def serialize_animal(animal_obj):
     return output
 
 
+def generate_animals_html():
+    with open("animals_template.html", "r", encoding="utf-8") as f:
+        html_template = f.read()
+        html_template = html_template.replace(
+        "<head>",
+        "<head>\n    <meta charset=\"UTF-8\">"
+        )
+
+
+    html_output = html_template.replace("__REPLACE_ANIMALS_INFO__", output)
+
+
+    with open("animals.html", "w") as f:
+        f.write(html_output)
+
+
+data = load_data('animals_data.json')
+
 output = ''
 for animal_obj in data:
     output += serialize_animal(animal_obj)
 
-
-with open("animals_template.html", "r", encoding="utf-8") as f:
-    html_template = f.read()
-    html_template = html_template.replace(
-    "<head>",
-    "<head>\n    <meta charset=\"UTF-8\">"
-    )
-
-
-html_output = html_template.replace("__REPLACE_ANIMALS_INFO__", output)
-
-
-with open("animals.html", "w") as f:
-    f.write(html_output)
+generate_animals_html()
