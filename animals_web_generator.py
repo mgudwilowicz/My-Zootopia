@@ -2,9 +2,9 @@ import json
 
 
 def load_data(file_path):
-  """ Loads a JSON file """
-  with open(file_path, "r") as handle:
-    return json.load(handle)
+    """ Loads a JSON file """
+    with open(file_path, "r", encoding='utf-8') as handle:
+      return json.load(handle)
 
 
 def serialize_animal(animal_obj):
@@ -23,7 +23,7 @@ def serialize_animal(animal_obj):
     return output
 
 
-def generate_animals_html():
+def generate_animals_html(output):
     """Generates an HTML file by inserting animal data into a template and adding UTF-8 metadata."""
     with open("animals_template.html", "r", encoding="utf-8") as f:
         html_template = f.read()
@@ -38,11 +38,16 @@ def generate_animals_html():
         f.write(html_output)
 
 
+def main():
+    data = load_data("animals_data.json")
 
-data = load_data('animals_data.json')
+    output = ""
+    for animal_obj in data:
+        output += serialize_animal(animal_obj)
 
-output = ''
-for animal_obj in data:
-    output += serialize_animal(animal_obj)
+    generate_animals_html(output)
 
-generate_animals_html()
+
+if __name__ == "__main__":
+    main()
+
